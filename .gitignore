@@ -1,0 +1,152 @@
+# ------------------------------------------------------------
+# 1. Archivos y Directorios Generales de macOS
+# ------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Iconos y otros archivos generados por el sistema
+Icon?
+._*
+
+# Thumbnails
+._.DS_Store
+
+# ------------------------------------------------------------
+# 2. Archivos y Directorios de CodeIgniter
+# ------------------------------------------------------------
+/app/Config/.env
+/writable/cache/
+/writable/logs/
+/writable/session/
+/writable/uploads/
+
+# Dependencias gestionadas por Composer y Node.js
+/vendor/
+/node_modules/
+
+/public/vendor/
+/public/node_modules/
+
+# Evitar subir archivos temporales y backups
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# ------------------------------------------------------------
+# 3. Archivos y Directorios de MAMP/LAMP
+# ------------------------------------------------------------
+# Si tienes configuraciones específicas de MAMP/LAMP dentro del proyecto
+/mamp/
+/xampp/
+/lamp/
+
+# ------------------------------------------------------------
+# 4. Archivos y Directorios de IDEs y Editores
+# ------------------------------------------------------------
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ------------------------------------------------------------
+# 5. Archivos de Dependencias y Builds
+# ------------------------------------------------------------
+# Dependencias adicionales
+bower_components/
+
+# Archivos de bloqueo de dependencias
+composer.lock
+package-lock.json
+yarn.lock
+
+# ------------------------------------------------------------
+# 6. Archivos de Prettier y Configuraciones
+# ------------------------------------------------------------
+# Configuraciones de Prettier
+.prettierrc
+.prettierrc.js
+.prettierrc.json
+.prettierrc.yml
+.prettierrc.yaml
+.prettierrc.toml
+.prettier.config.js
+
+# Ignorar archivo de exclusiones de Prettier
+.prettierignore
+
+# ------------------------------------------------------------
+# 7. Archivos de Logs y Otros
+# ------------------------------------------------------------
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.pid
+*.seed
+
+# ------------------------------------------------------------
+# 8. Archivos de Entorno
+# ------------------------------------------------------------
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ------------------------------------------------------------
+# 9. Archivos de Cache y Generados
+# ------------------------------------------------------------
+/cache/
+/logs/
+/temp/
+*.cache
+*.log
+
+# ------------------------------------------------------------
+# 10. Archivos de Sistema y Otros
+# ------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.backup
+*.orig
+*.save
+
+# ------------------------------------------------------------
+# 11. Archivos de Test y Cobertura (Opcional)
+# ------------------------------------------------------------
+/tests/
+/coverage/
+phpunit.xml
+phpunit.xml.dist
+
+# ------------------------------------------------------------
+# 12. Archivos de Docker (Opcional)
+# ------------------------------------------------------------
+docker-compose.yml
+/docker/
+
+# ------------------------------------------------------------
+# 13. Otros Archivos Temporales
+# ------------------------------------------------------------
+*.swp
