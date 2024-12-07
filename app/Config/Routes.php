@@ -30,6 +30,11 @@ $routes->setAutoRoute(false);
 
 // Página de inicio
 $routes->get('/', 'Website\Home::index', ['as' => 'home']);
+$routes->get('login', 'LoginController::index');
+$routes->post('login/autenticar', 'LoginController::autenticar');
+$routes->get('logout', 'LoginController::logout');
+$routes->get('proceso/iniciar/(:num)', 'ProcesoController::iniciar/$1');
+$routes->post('login/validarUsuario', 'LoginController::validarUsuario');
 
 // Rutas de autenticación 
 $routes->match(['get', 'post'], 'admin/login', 'Acl\AuthController::login', ['as' => 'admin.login']);

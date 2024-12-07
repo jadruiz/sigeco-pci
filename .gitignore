@@ -150,3 +150,7 @@ docker-compose.yml
 # 13. Otros Archivos Temporales
 # ------------------------------------------------------------
 *.swp
+
+writable/debugbar/
+*.js
+*.jpg

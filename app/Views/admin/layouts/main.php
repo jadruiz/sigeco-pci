@@ -24,7 +24,7 @@
     <link href="<?= base_url() ?>assets/css/semi-dark.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/header-colors.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/foundations.css" rel="stylesheet" />
-    <title><?= isset($title) ? $title : 'Examen de Lenguas | EDL' ?></title>
+    <title><?= isset($title) ? $title : env('') ?></title>
     <script>
         const baseUrl = '<?= base_url() ?>';
         const moduleKey = '<?= $moduleKey ?>';
@@ -43,7 +43,7 @@
                     <img src="<?= base_url() ?>assets/images/logo-icon-2.png" class="logo-icon" alt="logo icon">
                 </div>
                 <div>
-                    <h4 class="logo-text">EDL</h4>
+                    <h4 class="logo-text"><?= env('app.sgc.admin.fullnameAcronyms','')?></h4>
                 </div>
                 <div class="toggle-icon ms-auto"><ion-icon name="menu-sharp"></ion-icon></div>
             </div>

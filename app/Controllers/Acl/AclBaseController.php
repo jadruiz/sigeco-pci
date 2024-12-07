@@ -66,7 +66,7 @@ class AclBaseController extends BaseController
     private function buildModuleViewData(array $additionalData = []): array
     {
         return array_merge($additionalData, [
-            'title' => 'EDL | ' . $this->moduloDetalles['nombre'],
+            'title' => env('app.sgc.admin.fullnameAcronyms','').' | '.$this->moduloDetalles['nombre'],
             'moduleName' => $this->moduloDetalles['nombre'],
             'moduleIcon' => $this->moduloDetalles['icono'],
             'moduleKey' => $this->moduloDetalles['clave'],

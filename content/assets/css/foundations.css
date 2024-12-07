@@ -1,21 +1,27 @@
 :root {
-  --clr-primary-lightest: #e0e9e6;
-  --clr-primary-light: #739b8c;
-  --clr-primary: #054c31;
-  --clr-primary-dark: #043925;
-  --clr-primary-darkest: #032619;
+  /* Azul primario */
+  --clr-primary-lightest: #e3f2fd; /* Azul muy claro */
+  --clr-primary-light: #90caf9; /* Azul claro */
+  --clr-primary: #1976d2; /* Azul principal */
+  --clr-primary-dark: #1565c0; /* Azul oscuro */
+  --clr-primary-darkest: #0d47a1; /* Azul más oscuro */
 
-  --clr-secondary-lightest: #fbe99f;
-  --clr-secondary-light: #f0d463;
-  --clr-secondary: #e7bc13;
-  --clr-secondary-dark: #9a7d0d;
-  --clr-secondary-darkest: #4c3e06;
-
-  --clr-p1: #054c31;
-  --clr-p2: #e7bc13;
-  --clr-p3: #8ea024;
-  --clr-p4: #eb9b32;
-  --clr-p5: #9a7d0d;
+  /* Amarillo/acento */
+  --clr-secondary-lightest: #fff8e1; /* Amarillo muy claro */
+  --clr-secondary-light: #ffecb3; /* Amarillo claro */
+  --clr-secondary: #ffc107; /* Amarillo principal */
+  --clr-secondary-dark: #ffa000; /* Amarillo oscuro */
+  --clr-secondary-darkest: #ff6f00; /* Amarillo más oscuro */
+  
+  --clr-text-primary: #546e7a; /* Gris azulado principal */
+  --clr-text-secondary: #b0bec5; /* Gris azulado claro */
+  --clr-text-darkest: #37474f; /* Gris azulado oscuro */
+  /* Colores adicionales */
+  --clr-p1: #1976d2; /* Azul principal */
+  --clr-p2: #ffc107; /* Amarillo principal */
+  --clr-p3: #0288d1; /* Azul medio */
+  --clr-p4: #ef5350; /* Rojo como acento */
+  --clr-p5: #ffb300; /* Amarillo intermedio */
 }
 
 body {

@@ -19,7 +19,7 @@
     <link href="<?= base_url() ?>assets/css/icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/foundations.css" rel="stylesheet" />
-    <title><?= isset($title) ? $title : 'Examen de Lenguas | EDL' ?></title>
+    <title><?= isset($title) ? $title : env('app.sgc.fullname','') ?></title>
 </head>
 
 <body class="bg-white">
