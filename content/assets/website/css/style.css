@@ -369,7 +369,7 @@ img {
 
 .btn-style-three:hover {
   color: #ffffff;
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
 }
 
 /*Btn Style Four*/
@@ -381,8 +381,8 @@ img {
   font-weight: 500;
   padding: 16px 30px 12px;
   text-transform: uppercase;
-  background-color: #f14b59;
-  border: 1px solid #f14b59;
+  background-color: var(--clr-primary);
+  border: 1px solid var(--clr-primary);
 }
 
 .btn-style-four:hover {
@@ -592,7 +592,7 @@ img {
 
 .scroll-to-top:hover {
   color: #ffffff;
-  background: #4b1ece;
+  background: var(--clr-primary-darkest);
 }
 
 /*** 
@@ -610,7 +610,7 @@ img {
   background-position: center center;
   background-repeat: no-repeat;
   text-align: center;
-  background-color: #45269e;
+  background-color: var(--clr-primary-darkest);
   overflow: hidden;
   z-index: 1;
 }
@@ -716,7 +716,7 @@ img {
   display: block;
   font-size: 18px;
   line-height: 24px;
-  color: #f14b59;
+  color: var(--clr-primary);
   font-weight: 500;
   margin-bottom: 30px;
 }
@@ -1042,7 +1042,7 @@ img {
 }
 
 .main-menu .navigation > li > ul > li:hover > a {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 .main-menu .navigation > li > ul > li.dropdown > a:after {
@@ -1136,7 +1136,7 @@ img {
 }
 
 .main-menu .navigation > li > ul > li > ul > li:hover > a {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 .main-menu .navigation > li.dropdown:hover > ul {
@@ -1808,7 +1808,7 @@ img {
   height: 70px;
   padding: 20px 10px 20px 10px;
   color: #ffffff !important;
-  background: #f14b59;
+  background: var(--clr-primary);
   line-height: 30px;
   font-size: 20px;
   cursor: pointer;
@@ -2489,7 +2489,7 @@ a.ui-button:active,
   display: block;
   font-size: 70px;
   line-height: 1em;
-  color: #f14b59;
+  color: var(--clr-primary);
   font-family: "baloo", cursive;
 }
 
@@ -2962,7 +2962,7 @@ a.ui-button:active,
   display: block;
   font-size: 70px;
   line-height: 1em;
-  color: #f14b59;
+  color: var(--clr-primary);
   font-family: "baloo", cursive;
 }
 
@@ -4301,7 +4301,7 @@ a.ui-button:active,
   position: relative;
   float: left;
   min-width: 215px;
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
   font-size: 20px;
   line-height: 30px;
   color: #fffefe;
@@ -4336,7 +4336,7 @@ a.ui-button:active,
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   opacity: 0;
-  border-top: 8px solid #f14b59;
+  border-top: 8px solid var(--clr-primary);
   content: "";
 }
 
@@ -4397,7 +4397,7 @@ a.ui-button:active,
     rgba(69, 74, 180, 1) 50%,
     rgba(255, 162, 0, 1) 100%
   );
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f14b59', endColorstr='#ffa200',GradientType=1 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='var(--clr-primary)', endColorstr='#ffa200',GradientType=1 );
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
@@ -4455,7 +4455,7 @@ a.ui-button:active,
   float: left;
   font-size: 18px;
   line-height: 30px;
-  color: #f14b59;
+  color: var(--clr-primary);
   margin-right: 10px;
 }
 
@@ -4480,7 +4480,7 @@ a.ui-button:active,
 }
 
 .shedule-block h4 a:hover {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 .shedule-block .text {
@@ -4517,7 +4517,7 @@ a.ui-button:active,
 }
 
 .shedule-block .shedule-info li a {
-  color: #f14b59;
+  color: var(--clr-primary);
   font-weight: 500;
   display: inline-block;
   -webkit-transition: all 300ms ease;
@@ -5021,7 +5021,7 @@ a.ui-button:active,
   display: block;
   font-size: 28px;
   line-height: 26px;
-  color: #f14b59;
+  color: var(--clr-primary);
   font-weight: 400;
 }
 
@@ -5553,7 +5553,7 @@ a.ui-button:active,
 }
 
 .pricing-block:nth-child(2) .price {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 .pricing-block:nth-child(3) .price {
@@ -5561,7 +5561,7 @@ a.ui-button:active,
 }
 
 .pricing-block:nth-child(2) .btn-box a {
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
 }
 
 .pricing-block:nth-child(3) .btn-box a {
@@ -6025,7 +6025,7 @@ a.ui-button:active,
 }
 
 .pricing-block-three:nth-child(2) .price {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 .pricing-block-three:nth-child(3) .price {
@@ -6033,7 +6033,7 @@ a.ui-button:active,
 }
 
 .pricing-block-three:nth-child(2) .btn-box a {
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
 }
 
 .pricing-block-three:nth-child(3) .btn-box a {
@@ -6456,7 +6456,7 @@ a.ui-button:active,
 
 .testimonial-carousel .owl-next:hover,
 .testimonial-carousel .owl-prev:hover {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 /*** 
@@ -6517,7 +6517,7 @@ a.ui-button:active,
   top: -35px;
   height: 70px;
   width: 70px;
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
   border-radius: 50%;
   font-size: 30px;
   line-height: 1em;
@@ -6581,7 +6581,7 @@ a.ui-button:active,
 .news-block .post-info a {
   display: inline-block;
   font-size: 16px;
-  color: #f14b59;
+  color: var(--clr-primary);
   font-weight: 500;
 }
 
@@ -6718,7 +6718,7 @@ a.ui-button:active,
   top: -40px;
   height: 80px;
   width: 80px;
-  background-color: #f14b59;
+  background-color: var(--clr-primary);
   border-radius: 50%;
   font-size: 30px;
   line-height: 1em;
@@ -9254,7 +9254,7 @@ a.ui-button:active,
 
 .related-products .owl-next:hover,
 .related-products .owl-prev:hover {
-  color: #f14b59;
+  color: var(--clr-primary);
 }
 
 /*** 

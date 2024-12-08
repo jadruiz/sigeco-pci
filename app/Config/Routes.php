@@ -24,6 +24,34 @@ $routes->setAutoRoute(false);
 $routes->get('setCongresoSession/(:num)', 'Home::setCongresoSession/$1');
 $routes->get('home/cambiarCongreso/(:num)', 'Website\Home::cambiarCongreso/$1');
 
+$routes->get('congresos', 'Website\CongresoController::lista');
+$routes->get('congreso/(:segment)', 'Website\CongresoController::detalle/$1');
+$routes->get('congreso/(:segment)/convocatoria', 'Website\CongresoController::convocatoria/$1');
+$routes->get('congreso/(:segment)/registro', 'Website\CongresoController::registro/$1');
+$routes->get('congreso/(:segment)/programa', 'Website\CongresoController::programa/$1');
+$routes->get('congreso/(:segment)/finalizado', 'Website\CongresoController::finalizado/$1');
+
+
+/*
+$routes->group('congreso', function ($routes) {
+    // Ruta para registro de participantes
+    $routes->get('(:alphanum)/registro', 'RegistroController::index/$1', ['as' => 'congreso_registro']);
+    $routes->post('(:alphanum)/registro', 'RegistroController::store/$1');
+    
+    // Ruta para ver detalles del congreso
+    $routes->get('(:alphanum)', 'CongresoController::index/$1', ['as' => 'congreso_detalle']);
+    
+    // Ruta para listar todos los eventos de un congreso
+    $routes->get('(:alphanum)/eventos', 'EventoController::index/$1', ['as' => 'congreso_eventos']);
+    
+    // Ruta para ver un evento específico
+    $routes->get('(:alphanum)/eventos/(:num)', 'EventoController::show/$1/$2', ['as' => 'congreso_evento_detalle']);
+    
+    // Ruta para editar un perfil relacionado al congreso
+    $routes->get('(:alphanum)/perfil', 'PerfilController::index/$1', ['filter' => 'auth', 'as' => 'congreso_perfil']);
+    $routes->post('(:alphanum)/perfil', 'PerfilController::update/$1', ['filter' => 'auth']);
+});*/
+
 /*
  * --------------------------------------------------------------------
  * Rutas Públicas (sin autenticación)

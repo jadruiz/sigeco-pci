@@ -12,7 +12,7 @@
   --clr-secondary: #ffc107; /* Amarillo principal */
   --clr-secondary-dark: #ffa000; /* Amarillo oscuro */
   --clr-secondary-darkest: #ff6f00; /* Amarillo más oscuro */
-  
+
   --clr-text-primary: #546e7a; /* Gris azulado principal */
   --clr-text-secondary: #b0bec5; /* Gris azulado claro */
   --clr-text-darkest: #37474f; /* Gris azulado oscuro */
@@ -22,6 +22,19 @@
   --clr-p3: #0288d1; /* Azul medio */
   --clr-p4: #ef5350; /* Rojo como acento */
   --clr-p5: #ffb300; /* Amarillo intermedio */
+
+  --bs-primary: #004b87;
+  --bs-secondary: #f2a900;
+  --bs-success: #2e8540;
+  --bs-danger: #cc0000;
+  --bs-warning: #ffbf47;
+  --bs-info: #2b8cc4;
+  --bs-light: #f8f9fa;
+  --bs-dark: #212529;
+
+  /* Mejor contraste */
+  --bs-body-color: #212529;
+  --bs-body-bg: #ffffff;
 }
 
 body {
@@ -335,4 +348,30 @@ div.dt-processing > div:last-child > div {
   --bs-btn-disabled-bg: transparent;
   --bs-btn-disabled-border-color: var(--clr-primary);
   --bs-gradient: none;
+}
+/* Ajustes de alertas */
+.alert {
+  border: none; /* Quitar bordes */
+  color: #ffffff; /* Texto en blanco */
+}
+
+.alert-primary {
+  background-color: var(--bs-primary);
+}
+
+.alert-success {
+  background-color: var(--bs-success);
+}
+
+.alert-danger {
+  background-color: var(--bs-danger);
+}
+
+.alert-warning {
+  background-color: var(--bs-warning);
+  color: #212529; /* Texto oscuro */
+}
+
+.alert-info {
+  background-color: var(--bs-info);
 }

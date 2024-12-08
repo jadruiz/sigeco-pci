@@ -39,6 +39,11 @@ class CongresoModel extends Model
                     ->findAll();
     }
 
+    public function obtenerCongresos()
+    {
+        return $this->orderBy('fecha_inicio', 'ASC')->findAll();
+    }
+
     public function obtenerCongresoPorId($id)
     {
         return $this->where('id', $id)->first();
