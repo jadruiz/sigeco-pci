@@ -24,7 +24,7 @@
     <link href="<?= base_url() ?>assets/css/semi-dark.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/header-colors.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/foundations.css" rel="stylesheet" />
-    <title><?= isset($title) ? $title : env('') ?></title>
+    <title><?= isset($title) ? $title : env('app.sgc.fullnameAcronyms','').' | '.env('app.sgc.fullname','') ?></title>
     <script>
         const baseUrl = '<?= base_url() ?>';
         const moduleKey = '<?= $moduleKey ?>';

@@ -21,6 +21,8 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 // Deshabilitar Auto Routing (mejor seguridad)
 $routes->setAutoRoute(false);
+$routes->get('setCongresoSession/(:num)', 'Home::setCongresoSession/$1');
+$routes->get('home/cambiarCongreso/(:num)', 'Website\Home::cambiarCongreso/$1');
 
 /*
  * --------------------------------------------------------------------
