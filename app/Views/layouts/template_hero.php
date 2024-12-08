@@ -91,13 +91,13 @@
         </div>
     </main>
     <footer class="text-white p-3 text-center fixed-bottom bg-primary">
-        <p>&copy; <?= date('Y') ?> Examen de Ubicación de Inglés - UQROO. Todos los derechos reservados.</p>
+        <p>&copy; <?= date('Y') ?> <?=env('app.sgc.fullnameAcronyms','')?> | <?=env('app.sgc.fullname','')?>. Todos los derechos reservados.</p>
     </footer>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap 5.3.0 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <?= $this->renderSection('footer_scripts') ?>
+    <?= $this->renderSection('bottom_body') ?>
 </body>
 
 </html>

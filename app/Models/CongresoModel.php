@@ -34,8 +34,7 @@ class CongresoModel extends Model
     
     public function getUltimosCongresos($limit = 10)
     {
-        return $this->where('activo', 1)
-                    ->orderBy('fecha_inicio', 'DESC')
+        return $this->orderBy('fecha_inicio', 'DESC')
                     ->limit($limit)
                     ->findAll();
     }

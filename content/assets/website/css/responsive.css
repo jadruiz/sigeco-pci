@@ -87,7 +87,7 @@
 	.main-header.fixed-header,
 	.main-header{
 		position: relative;
-		background-color: #12114a;
+		background-color: var(--clr-primary-darkest);
 	}
 
 	.header-style-two.fixed-header,

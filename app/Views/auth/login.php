@@ -2,6 +2,7 @@
 <?= $this->section('header') ?>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
+
 <style>
     .login-wrapper .btn {
         width: 100%;
@@ -10,102 +11,130 @@
     input::placeholder {
         color: #dee2e6 !important;
     }
+
+    .password-toggle {
+        cursor: pointer;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
 </style>
-<div class="container login-wrapper mt-4 mb-4">
+
+<div class="container login-wrapper mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger">
-                    <?= session()->getFlashdata('error') ?>
+            <h1 class="text-primary text-center mb-4">¡Bienvenido de nuevo!</h1>
+            <p class="text-center pb-4">Inicia sesión para acceder a tu cuenta y disfrutar de todas las funcionalidades.</p>
+            <!-- Mensajes de éxito y error -->
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= esc(session()->getFlashdata('success')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
             <?php endif; ?>
-            <form id="loginForm" action="<?= base_url('login/autenticar') ?>" method="post">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Ingresa tu Clave de Aspirante</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="AS24-01245" required>
+
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= esc(session()->getFlashdata('error')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
-                <button type="button" id="validateButton" class="btn btn-lg btn-primary">INICIAR</button>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('alert')): ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <?= esc(session()->getFlashdata('alert')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            <?php endif; ?>
+            <!-- Formulario de Login -->
+            <form id="loginForm" action="<?= base_url('iniciar-sesion/procesar'); ?>" method="post" novalidate>
+                <!-- Usuario/Correo -->
+                <div class="mb-4">
+                    <label for="username" class="form-label">Usuario/Correo</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Ej. micuenta o micorreo@ejemplo.com" required>
+                    <div class="invalid-feedback">Por favor ingresa tu usuario o correo.</div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="mb-4">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="********" required>
+                        <span class="input-group-text password-toggle" aria-label="Mostrar u ocultar contraseña">
+                            <i class="fa-solid fa-eye-slash" id="togglePasswordIcon"></i>
+                        </span>
+                        <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+                    </div>
+                </div>
+
+                <!-- Recordarme y Enlace al Registro -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Recuérdame
+                        </label>
+                    </div>
+                    <a href="<?= base_url('registro') ?>" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
+                </div>
+
+                <!-- Botón de Inicio -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-lg btn-primary">Iniciar sesión</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
-<div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="validationModalLabel">Confirmar Datos</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button id="confirmButton" type="button" class="btn btn-primary">Confirmar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<?= $this->endSection() ?>
+
+<?= $this->section('bottom_body') ?>
 <script>
     $(document).ready(function() {
-        $('#validateButton').on('click', function(e) {
-            e.preventDefault();
-            const username = $('#username').val();
-            if (username) {
-                $.ajax({
-                    url: '<?= base_url('login/validarUsuario') ?>',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        username: username
-                    }),
-                    success: function(response) {
-                        const modalBody = $('#modalBody');
-                        const modal = new bootstrap.Modal($('#validationModal'), {});
+        // Mostrar/Ocultar Contraseña
+        const togglePasswordIcon = $('#togglePasswordIcon');
+        const passwordField = $('#password');
 
-                        if (response.success) {
-                            modalBody.html(`
-    <p class="fw-bold">¿Son estos tus datos?</p>
-    <table class="table table-bordered table-sm">
-        <tbody>
-            <tr>
-                <th class="text-end">Clave de aspirante:</th>
-                <td class="text-start">${response.usuario.username}</td>
-            </tr>
-            <tr>
-                <th class="text-end">Nombre:</th>
-                <td class="text-start">${response.usuario.nombre_completo}</td>
-            </tr>
-            <tr>
-                <th class="text-end">Correo:</th>
-                <td class="text-start">${response.usuario.email}</td>
-            </tr>
-            <tr>
-                <th class="text-end">Carrera:</th>
-                <td class="text-start">${response.usuario.carrera_detalle}</td>
-            </tr>
-        </tbody>
-    </table>
-`);
-                        } else {
-                            modalBody.html(`<p class="text-danger">${response.error}</p>`);
-                        }
+        $('.password-toggle').on('click', function() {
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
 
-                        modal.show();
-                    },
-                    error: function() {
-                        alert('Hubo un error al validar los datos. Inténtalo nuevamente.');
-                    }
-                });
+            // Cambiar el ícono
+            if (type === 'text') {
+                togglePasswordIcon.removeClass('fa-eye-slash').addClass('fa-eye');
             } else {
-                alert('Por favor, ingresa tu clave de aspirante.');
+                togglePasswordIcon.removeClass('fa-eye').addClass('fa-eye-slash');
             }
         });
 
-        $('#confirmButton').on('click', function() {
-            $('#loginForm').submit();
+        // Validación en el lado del cliente
+        $('#loginForm').on('submit', function(e) {
+            let isValid = true;
+
+            // Validar Usuario/Correo
+            const username = $('#username');
+            if (username.val().trim() === '') {
+                username.addClass('is-invalid');
+                isValid = false;
+            } else {
+                username.removeClass('is-invalid');
+            }
+
+            // Validar Contraseña
+            const password = $('#password');
+            if (password.val().trim() === '') {
+                password.addClass('is-invalid');
+                isValid = false;
+            } else {
+                password.removeClass('is-invalid');
+            }
+
+            // Prevenir envío si no es válido
+            if (!isValid) {
+                e.preventDefault();
+            }
         });
     });
 </script>
-
 <?= $this->endSection() ?>

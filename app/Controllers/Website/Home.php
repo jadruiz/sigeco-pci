@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\CongresoModel;
 use App\Models\PaqueteModel;
 use App\Models\PatrocinadorModel;
-use App\Models\ParticipanteModel;
+use App\Models\ParticipantesModel;
 
 class Home extends BaseController
 {
@@ -14,7 +14,7 @@ class Home extends BaseController
     protected $congresoModel;
     protected $paqueteModel;
     protected $patrocinadorModel;
-    protected $participanteModel;
+    protected $participantesModel;
 
     public function __construct()
     {
@@ -22,7 +22,7 @@ class Home extends BaseController
         $this->congresoModel = new CongresoModel();
         $this->paqueteModel = new PaqueteModel();
         $this->patrocinadorModel = new PatrocinadorModel();
-        $this->participanteModel = new ParticipanteModel();
+        $this->participantesModel = new ParticipantesModel();
     }
 
     public function index()

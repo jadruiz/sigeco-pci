@@ -11,11 +11,11 @@ class AuthUserFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         /** @var IncomingRequest $request */
-        if (!session()->get('logged_in')) {
+        if (!session()->get('wlp_isLoggedIn')) {
             if ($request->isAJAX()) {
                 return service('response')->setJSON(['status' => 'session_expired'])->setStatusCode(401);
             }
-            return redirect()->to('/login');
+            return redirect()->to('/iniciar-sesion');
         }
     }
 

@@ -32,11 +32,24 @@ $routes->get('home/cambiarCongreso/(:num)', 'Website\Home::cambiarCongreso/$1');
 
 // Página de inicio
 $routes->get('/', 'Website\Home::index', ['as' => 'home']);
-$routes->get('login', 'LoginController::index');
-$routes->post('login/autenticar', 'LoginController::autenticar');
-$routes->get('logout', 'LoginController::logout');
-$routes->get('proceso/iniciar/(:num)', 'ProcesoController::iniciar/$1');
-$routes->post('login/validarUsuario', 'LoginController::validarUsuario');
+//$routes->get('login', 'LoginController::index');
+
+/*$routes->get('/login', 'AuthController::login');
+$routes->post('/auth/login', 'AuthController::doLogin');
+$routes->get('/logout', 'AuthController::logout');
+$routes->get('/register', 'AuthController::register');
+$routes->post('/auth/register', 'AuthController::doRegister');*/
+
+// Rutas de acceso
+// Rutas amigables para usuarios pero estandarizadas
+$routes->get('/iniciar-sesion', 'AuthController::login');
+$routes->post('/iniciar-sesion/procesar', 'AuthController::doLogin');
+$routes->get('/cerrar-sesion', 'AuthController::logout');
+$routes->get('/registro', 'AuthController::register');
+$routes->post('/registro/procesar', 'AuthController::doRegister');
+$routes->get('/dashboard', 'DashboardController::index', ['filter' => 'authUser']);
+
+
 
 // Rutas de autenticación 
 $routes->match(['get', 'post'], 'admin/login', 'Acl\AuthController::login', ['as' => 'admin.login']);
