@@ -72,59 +72,6 @@ class RegistroController extends BaseController
         }
     }
 
-    public function paso($paso = 1)
-    {
-        $session = session();
-        $usuario_id = $session->get('id');
-        $username = $session->get('username');
-
-        if (!$usuario_id) {
-            return redirect()->to('/login')->with('alert', 'Debes iniciar sesión para continuar.');
-        }
-
-        // Obtener datos del participante
-        $participante = $this->registroModel->find($usuario_id);
-        $pasoActualUsuario = (int) $participante['paso_actual'];
-
-        if ($paso > $pasoActualUsuario) {
-            return redirect()->to("registro/paso/$pasoActualUsuario");
-        }
-
-        $etapas = ['iniciar_sesion', 'seleccionar_congreso', 'plan_pago'];
-        $data = [
-            'paso' => $paso,
-            'username' => $username,
-            'pasoActualUsuario' => $pasoActualUsuario,
-            'etapas' => $etapas,
-            'nextStepUrl' => ($paso < count($etapas)) ? site_url("registro/paso/" . ($paso + 1)) : null,
-            'prevStepUrl' => ($paso > 1) ? site_url("registro/paso/" . ($paso - 1)) : null,
-        ];
-
-        switch ($paso) {
-            case 1:
-                $data['usuario'] = $participante;
-                break;
-
-            case 2:
-                $data['congresos'] = $this->congresoModel->findAll();
-                break;
-
-            case 3:
-                $data['planes'] = $this->registroModel->obtenerPlanes();
-                break;
-
-            case 4:
-                $data['resumen'] = [
-                    'usuario' => $participante,
-                    'congreso' => $this->congresoModel->find($participante['congreso_id']),
-                    'plan' => $this->registroModel->obtenerPlanPorId($participante['paquete_id']),
-                ];
-                break;
-        }
-
-        return view("registro/pasos/paso_$paso", $data);
-    }
-
     /**
      * Avanzar al siguiente paso del registro
      */
@@ -140,5 +87,65 @@ class RegistroController extends BaseController
         // Actualizar el paso del usuario
         $this->registroModel->update($usuario_id, ['paso_actual' => $nuevoPaso]);
         return redirect()->to("/registro/paso/$nuevoPaso");
+    }
+
+    public function seleccionarPlan($slug, $paqueteId)
+    {
+        $userId = session()->get('wlp_id');
+
+        // Obtener datos del congreso
+        $congreso = $this->congresoModel->where('slug', $slug)->first();
+
+        if (!$congreso || !$userId || !$paqueteId) {
+            return redirect()->back()->with('error', 'Datos inválidos o incompletos.');
+        }
+
+        // Modelos
+        $inscripcionModel = new \App\Models\InscripcionCongresoModel();
+        $progresoModel = new \App\Models\RegistroProgresoModel();
+
+        // Buscar si existe una inscripción previa
+        $inscripcion = $inscripcionModel
+            ->where('participante_id', $userId)
+            ->where('congreso_id', $congreso['id'])
+            ->first();
+
+        if ($inscripcion) {
+            // Actualizar la inscripción existente
+            $inscripcionModel->update($inscripcion['id'], [
+                'paquete_id' => $paqueteId,
+                'estado' => 'en_proceso',
+                'fecha_inscripcion' => date('Y-m-d H:i:s')
+            ]);
+            $mensaje = 'Plan actualizado correctamente.';
+        } else {
+            // Insertar una nueva inscripción
+            $inscripcionModel->insert([
+                'congreso_id' => $congreso['id'],
+                'participante_id' => $userId,
+                'paquete_id' => $paqueteId,
+                'estado' => 'en_proceso'
+            ]);
+            $mensaje = 'Plan seleccionado correctamente.';
+        }
+
+        // Actualizar el paso_actual en sgc_registro_progreso
+        $progreso = $progresoModel
+            ->where('participante_id', $userId)
+            ->where('congreso_id', $congreso['id'])
+            ->first();
+
+        if ($progreso) {
+            $progresoModel->update($progreso['id'], ['paso_actual' => 3]);
+        } else {
+            // Crear un nuevo progreso si no existe
+            $progresoModel->insert([
+                'participante_id' => $userId,
+                'congreso_id' => $congreso['id'],
+                'paso_actual' => 3
+            ]);
+        }
+        // Redirigir al paso 3
+        return redirect()->to("congreso/$slug/registro/paso/3")->with('success', $mensaje);
     }
 }

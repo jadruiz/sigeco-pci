@@ -118,7 +118,7 @@
                             <li class="vimeo"><a href="#"><span class="fab fa-vimeo-v"></span></a></li>
                         </ul>
                     </div>
-                    <div class="copyright-text">© Copyright <a href="#"></a> 2019. Todos los derechos reservados.</div>
+                    <div class="copyright-text">© Copyright <a href="#"></a> <?= date('Y');?> <?= env('app.sgc.fullnameAcronyms', '') . ' | ' . env('app.sgc.fullname', '')?>.  Todos los derechos reservados.</div>
                 </div>
             </div>
         </footer>

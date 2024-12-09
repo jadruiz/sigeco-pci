@@ -1,11 +1,20 @@
-<?= $this->extend('layouts/template_seccion') ?>
+<?= $this->extend('website/layouts/main_clean') ?>
 
 <?= $this->section('header_page') ?>
 <link rel="stylesheet" href="<?= base_url('assets/css/registro/registro.css') ?>" />
 <?= $this->endSection() ?>
-
 <?= $this->section('content') ?>
+<section class="page-title">
+    <div class="auto-container">
+        <h1>
+            Registro al "<?= esc($congreso['nombre']) ?>"
+        </h1>
+    </div>
+</section>
 <style>
+    .page-title {
+    padding: 60px 0 60px;
+}
     .nav-tabs-container {
         background-color: #f8f9fa;
         position: relative;
@@ -56,15 +65,19 @@
 <div class="nav-tabs-container">
     <div class="container">
         <ul class="nav nav-tabs" id="registrationTabs" role="tablist">
-            <?php foreach ($etapas as $index => $etapa): ?>
+            <?php 
+            $index = 1;
+            foreach ($etapas as $key => $etapa): ?>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link <?= ($paso == $index + 1) ? 'active' : '' ?>"
-                       href="<?= base_url("congreso/$slug/registro/paso/" . ($index + 1)) ?>"
-                       <?= ($pasoActualUsuario < $index + 1) ? 'disabled' : '' ?>>
-                        <?= ($index + 1) . '. ' . ucfirst($etapa) ?>
+                    <a class="nav-link <?= ($paso == $index) ? 'active' : '' ?>"
+                        href="<?= base_url("congreso/$slug/registro/paso/$index") ?>"
+                        <?= ($pasoActualUsuario < $index) ? 'disabled' : '' ?>>
+                        <strong><?= $index . '. ' . ucfirst($key) ?></strong><br>
                     </a>
                 </li>
-            <?php endforeach; ?>
+            <?php 
+            $index++; 
+            endforeach; ?>
         </ul>
     </div>
 </div>
@@ -115,7 +128,7 @@
 </div>
 <?= $this->endSection() ?>
 
-<?= $this->section('footer_scripts') ?>
+<?= $this->section('bottom_body') ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const tabs = Array.from(document.querySelectorAll('#registrationTabs .nav-link'));
@@ -129,4 +142,15 @@
         });
     });
 </script>
+<?= $this->endSection() ?>
+
+<?= $this->section('footer') ?>
+<footer class="main-footer">
+    <div class="auto-container">
+        <!-- Footer Content -->
+        <div class="footer-content">
+            <div class="copyright-text">© Copyright <a href="#"></a> <?= date('Y'); ?> <?= env('app.sgc.fullnameAcronyms', '') . ' | ' . env('app.sgc.fullname', '') ?>. Todos los derechos reservados.</div>
+        </div>
+    </div>
+</footer>
 <?= $this->endSection() ?>

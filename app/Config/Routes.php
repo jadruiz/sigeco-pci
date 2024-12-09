@@ -39,6 +39,8 @@ $routes->group('congreso', function ($routes) {
 });
 
 $routes->get('registro/set_congreso/(:segment)/(:num)', 'RegistroController::setCongreso/$1/$2');
+$routes->get('congreso/(:segment)/seleccionar-plan/(:num)', 'RegistroController::seleccionarPlan/$1/$2');
+
 
 
 /*
