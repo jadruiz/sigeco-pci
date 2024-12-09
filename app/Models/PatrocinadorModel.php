@@ -29,4 +29,5 @@ class PatrocinadorModel extends Model
         return $this->where(['congreso_id' => $congreso_id, 'activo' => 1])
                     ->findAll();
     }
+    
 }

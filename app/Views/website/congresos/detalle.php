@@ -27,11 +27,6 @@
 <!-- About Section (Siempre presente) -->
 <?= $this->include('website/congresos/partials/about_section'); ?>
 
-<!-- Map Section -->
-<?php if (in_array($congreso['estado'], ['planeacion', 'convocatoria', 'registro', 'activo'])): ?>
-    <?= $this->include('website/congresos/partials/map_section'); ?>
-<?php endif; ?>
-
 <!-- Call for Papers -->
 <?php if ($congreso['estado'] == 'convocatoria'): ?>
     <?= $this->include('website/congresos/partials/call_for_papers'); ?>
@@ -40,12 +35,18 @@
 <!-- Registro -->
 <?php if ($congreso['estado'] == 'registro'): ?>
     <?= $this->include('website/congresos/partials/registro_section'); ?>
+    <?= $this->include('website/congresos/partials/cta_register_section'); ?>
 <?php endif; ?>
 
 <!-- Congreso Activo -->
 <?php if ($congreso['estado'] == 'activo'): ?>
     <?= $this->include('website/congresos/partials/speakers_section'); ?>
-    <?= $this->include('website/congresos/partials/shedule_section'); ?>
+
+    <?php if (!empty($actividadesPorFecha)): ?>
+        <?= $this->include('website/congresos/partials/shedule_section'); ?>
+    <?php endif; ?>
+    
+    <?= $this->include('website/congresos/partials/cta_register_section'); ?>
     <?= $this->include('website/congresos/partials/tickets_section'); ?>
     <?= $this->include('website/congresos/partials/sponsors_section'); ?>
     <?= $this->include('website/congresos/partials/news_section'); ?>
@@ -62,4 +63,8 @@
     <?= $this->include('website/congresos/partials/speakers_section'); ?>
 <?php endif; ?>
 
+<!-- Map Section -->
+<?php if (in_array($congreso['estado'], ['planeacion', 'convocatoria', 'registro', 'activo'])): ?>
+    <?= $this->include('website/congresos/partials/map_section'); ?>
+<?php endif; ?>
 <?= $this->endSection(); ?>

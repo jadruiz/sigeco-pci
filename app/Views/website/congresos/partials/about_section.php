@@ -77,3 +77,77 @@
     </div>
 </section>
 <!-- End About Section -->
+<!-- Fechas Importantes -->
+<section class="important-dates-section py-5 bg-light">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">Fechas Importantes</h2>
+            <p class="text-muted fs-5">Momentos clave del congreso organizados por etapas.</p>
+        </div>
+
+        <!-- Categorías de Fechas -->
+        <?php
+        setlocale(LC_TIME, 'es_ES.UTF-8', 'Spanish_Spain', 'es_ES');
+        $hoy = new DateTime(); // Fecha actual
+        
+        $fechasCategorizadas = [
+            'Convocatoria' => [
+                ['titulo' => 'Publicación de Convocatoria', 'fecha' => $congreso['fecha_publicacion_convocatoria'], 'descripcion' => 'Apertura oficial de la convocatoria.'],
+            ],
+            'Registro' => [
+                ['titulo' => 'Inicio de Registro', 'fecha' => $congreso['fecha_inicio_registro'], 'descripcion' => 'Inicio del registro de participantes.'],
+                ['titulo' => 'Fin de Registro', 'fecha' => $congreso['fecha_fin_registro'], 'descripcion' => 'Cierre del registro de participantes.'],
+            ],
+            'Artículos' => [
+                ['titulo' => 'Inicio de Presentación de Artículos', 'fecha' => $congreso['fecha_inicio_presentacion_articulos'], 'descripcion' => 'Inicio para el envío de artículos.'],
+                ['titulo' => 'Fin de Presentación de Artículos', 'fecha' => $congreso['fecha_fin_presentacion_articulos'], 'descripcion' => 'Cierre del plazo de envíos.'],
+                ['titulo' => 'Notificación de Aceptación', 'fecha' => $congreso['fecha_notificacion_aceptacion'], 'descripcion' => 'Anuncio de los artículos aceptados.'],
+            ],
+            'Actividades' => [
+                ['titulo' => 'Inicio de Actividades', 'fecha' => $congreso['fecha_inicio_actividades'], 'descripcion' => 'Comienzo de las actividades del congreso.'],
+                ['titulo' => 'Cierre de Actividades', 'fecha' => $congreso['fecha_cierre_actividades'], 'descripcion' => 'Finalización del evento.'],
+            ],
+        ];
+        ?>
+
+        <!-- Renderización de Categorías -->
+        <div class="row">
+            <?php foreach ($fechasCategorizadas as $categoria => $fechas): ?>
+                <div class="col-12 col-md-6 mb-4">
+                    <h4 class="fw-bold text-secondary mb-3"><?= esc($categoria); ?></h4>
+                    <ul class="list-group list-group-flush shadow-sm rounded">
+                        <?php foreach ($fechas as $fecha): 
+                            if (!empty($fecha['fecha'])):
+                                $fechaEvento = new DateTime($fecha['fecha']);
+                                $formattedDate = strftime('%A, %d de %B de %Y', strtotime($fecha['fecha']));
+                                $addToCalendarUrl = "https://www.google.com/calendar/render?action=TEMPLATE&text=" . urlencode($fecha['titulo']) .
+                                    "&dates=" . date('Ymd', strtotime($fecha['fecha'])) . "/" . date('Ymd', strtotime($fecha['fecha'])) .
+                                    "&details=" . urlencode($fecha['descripcion']) . "&sf=true&output=xml";
+                                $eventoPasado = $fechaEvento < $hoy; // Verificar si la fecha ya pasó
+                        ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div class="me-auto">
+                                    <div class="fw-bold fs-5 text-dark"><?= esc($fecha['titulo']); ?></div>
+                                    <div class="text-muted small"><?= esc($fecha['descripcion']); ?></div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="text-primary fw-bold fs-6"><?= ucfirst($formattedDate); ?></div>
+                                    <?php if (!$eventoPasado): ?>
+                                        <a href="<?= esc($addToCalendarUrl); ?>" target="_blank" class="text-decoration-none small text-success">
+                                            <i class="bi bi-calendar-plus me-1"></i>Agregar a calendario
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-muted small"><i class="bi bi-calendar-x me-1"></i>Evento pasado</span>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endif; endforeach; ?>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<!-- End Fechas Importantes -->
+

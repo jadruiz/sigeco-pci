@@ -51,8 +51,36 @@ class CongresoController extends BaseController
 
     public function detalle($slug)
     {
-        $data['congreso'] = $this->getCongreso($slug);
-        return view('website/congresos/detalle', $data);
+        // Obtener congreso
+        $congreso = $this->getCongreso($slug);
+
+        // Obtener actividades agrupadas por fecha
+        $actividadesPorFecha = $this->actividadModel->obtenerActividadesAgrupadasPorFecha($congreso['id']);
+
+        // Obtener patrocinadores asociados al congreso
+        $congresoPatrocinadorModel = new \App\Models\CongresoPatrocinadorModel();
+        $patrocinadores = $congresoPatrocinadorModel->obtenerPatrocinadoresPorCongreso($congreso['id']);
+
+        // Obtener paquetes con beneficios
+        $paqueteModel = new \App\Models\PaqueteModel();
+        $paquetes = $paqueteModel->obtenerPaquetesConBeneficios($congreso['id']);
+
+        // Convertir beneficios de string a array
+        foreach ($paquetes as &$paquete) {
+            if (isset($paquete['beneficio']) && is_string($paquete['beneficio'])) {
+                $paquete['beneficios'] = explode('|', $paquete['beneficio']);
+            } else {
+                $paquete['beneficios'] = [];
+            }
+        }
+
+        // Pasar datos a la vista
+        return view('website/congresos/detalle', [
+            'congreso' => $congreso,
+            'actividadesPorFecha' => $actividadesPorFecha,
+            'patrocinadores' => $patrocinadores,
+            'paquetes' => $paquetes
+        ]);
     }
 
     public function convocatoria($slug)
@@ -73,11 +101,28 @@ class CongresoController extends BaseController
 
     public function programa($slug)
     {
-        $data['congreso'] = $this->getCongreso($slug);
-        $data['actividades'] = $this->actividadModel->where('congreso_id', $data['congreso']['id'])->findAll();
+        $congreso = $this->getCongreso($slug);
 
-        return view('website/congresos/programa', $data);
+        // Obtener las actividades
+        $actividades = $this->actividadModel->obtenerActividadesPorCongreso($congreso['id']);
+
+        if (empty($actividades)) {
+            session()->setFlashdata('warning', 'No hay actividades programadas aún.');
+        }
+
+        // Agrupar actividades por fecha
+        $actividadesPorFecha = [];
+        foreach ($actividades as $actividad) {
+            $fecha = $actividad['fecha_actividad'];
+            $actividadesPorFecha[$fecha][] = $actividad;
+        }
+
+        return view('website/congresos/detalle', [
+            'congreso' => $congreso,
+            'actividadesPorFecha' => $actividadesPorFecha
+        ]);
     }
+
 
     public function finalizado($slug)
     {
