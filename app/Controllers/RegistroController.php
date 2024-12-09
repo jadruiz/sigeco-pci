@@ -58,6 +58,20 @@ class RegistroController extends BaseController
         return redirect()->to('/registro')->with('success', 'Registro exitoso 🎉. ¡Inicia sesión para continuar!');
     }
 
+    public function setCongreso($congresoSlug, $redirectType)
+    {
+        $session = session();
+        $session->set('wss_congreso_slug', $congresoSlug);
+        // Redireccionar según el parámetro
+        if ($redirectType == 2) {
+            return redirect()->to('/registro')->with('success', 'Congreso seleccionado correctamente.');
+        } elseif ($redirectType == 1) {
+            return redirect()->to('/iniciar-sesion')->with('success', 'Congreso seleccionado. Por favor inicia sesión.');
+        } else {
+            return redirect()->to('/')->with('error', 'Opción de redirección inválida.');
+        }
+    }
+
     public function paso($paso = 1)
     {
         $session = session();
@@ -98,6 +112,14 @@ class RegistroController extends BaseController
             case 3:
                 $data['planes'] = $this->registroModel->obtenerPlanes();
                 break;
+
+            case 4:
+                $data['resumen'] = [
+                    'usuario' => $participante,
+                    'congreso' => $this->congresoModel->find($participante['congreso_id']),
+                    'plan' => $this->registroModel->obtenerPlanPorId($participante['paquete_id']),
+                ];
+                break;
         }
 
         return view("registro/pasos/paso_$paso", $data);
@@ -110,17 +132,13 @@ class RegistroController extends BaseController
     {
         $session = session();
         $usuario_id = $session->get('id');
-
         if (!$usuario_id) {
             return redirect()->to('/login');
         }
-
         $participante = $this->registroModel->find($usuario_id);
         $nuevoPaso = $participante['paso_actual'] + 1;
-
         // Actualizar el paso del usuario
         $this->registroModel->update($usuario_id, ['paso_actual' => $nuevoPaso]);
-
         return redirect()->to("/registro/paso/$nuevoPaso");
     }
 }

@@ -67,4 +67,14 @@ class RegistroModel extends Model
         $data['eliminado'] = 0;
         return $this->insert($data);
     }
+    
+    public function obtenerRolesParticipante($participanteId)
+    {
+        return $this->db->table('sgc_participantes_roles')
+            ->select('sgc_roles.nombre')
+            ->join('sgc_roles', 'sgc_roles.id = sgc_participantes_roles.rol_id')
+            ->where('sgc_participantes_roles.participante_id', $participanteId)
+            ->get()
+            ->getResultArray();
+    }
 }

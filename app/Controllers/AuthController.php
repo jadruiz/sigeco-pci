@@ -49,7 +49,6 @@ class AuthController extends BaseController
         if (!password_verify($data['password'], $user['password'])) {
             return redirect()->back()->with('alert', 'Contraseña incorrecta.');
         }
-
         // Configurar sesión
         session()->set([
             'wlp_id' => $user['id'],
@@ -58,9 +57,15 @@ class AuthController extends BaseController
             'wlp_isLoggedIn' => true
         ]);
 
-        return redirect()->to('/dashboard')->with('success', '¡Bienvenido, ' . esc($user['nombre']) . '!');
+        if (session()->get('wss_congreso_slug')) {
+            // Si la sesión hay un proceso de registro a un congreso activo
+            return redirect()->to('/congreso/' . session()->get('wss_congreso_slug') . '/registro')
+                ->with('success', '¡Bienvenido, ' . esc($user['nombre']) . '!');
+        }
+        return redirect()->to('/dashboard')
+            ->with('success', '¡Bienvenido, ' . esc($user['nombre']) . '!');
     }
-    
+
 
     /**
      * Cerrar sesión

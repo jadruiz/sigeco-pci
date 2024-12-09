@@ -31,6 +31,15 @@ $routes->get('congreso/(:segment)/registro', 'Website\CongresoController::regist
 $routes->get('congreso/(:segment)/programa', 'Website\CongresoController::programa/$1');
 $routes->get('congreso/(:segment)/finalizado', 'Website\CongresoController::finalizado/$1');
 
+$routes->group('congreso', function ($routes) {
+    $routes->get('(:segment)/registro', 'Website\CongresoController::registro/$1');
+    $routes->get('(:segment)/registro/paso/(:num)', 'Website\CongresoController::registroPaso/$1/$2');
+    $routes->post('(:segment)/registro/finalizar', 'Website\CongresoController::finalizarRegistro/$1');
+    $routes->get('(:segment)/registro/completado', 'Website\CongresoController::registroCompletado/$1');
+});
+
+$routes->get('registro/set_congreso/(:segment)/(:num)', 'RegistroController::setCongreso/$1/$2');
+
 
 /*
 $routes->group('congreso', function ($routes) {

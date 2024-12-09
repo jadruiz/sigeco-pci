@@ -92,10 +92,32 @@ class CongresoController extends BaseController
 
     public function registro($slug)
     {
-        $data['congreso'] = $this->getCongreso($slug);
-        $data['paquetes'] = $this->registroPaqueteModel->where('congreso_id', $data['congreso']['id'])->findAll();
+        // Obtener ID del usuario de la sesión
+        $userId = session()->get('wlp_id');
+        $progresoModel = new \App\Models\RegistroProgresoModel(); // Asegúrate de tener este modelo creado
+        if ($userId) {
+            // Actualiza la variable de sesión 'wss_congreso_slug' si no existe
+            if (!session()->get('wss_congreso_slug')) {
+                session()->set('wss_congreso_slug', $slug);
+            }
 
-        return view('website/congresos/registro', $data);
+            // Verificar si ya existe un progreso registrado
+            $progresoExistente = $progresoModel->where('participante_id', $userId)->first();
+            if ($progresoExistente) {
+                // Actualizar paso_actual a 2 si ya existe el registro
+                $progresoModel->update($progresoExistente['id'], ['paso_actual' => 2]);
+            } else {
+                // Crear un nuevo registro en la tabla de progreso
+                $progresoModel->insert([
+                    'participante_id' => $userId,
+                    'paso_actual' => 2
+                ]);
+            }
+            // Redirigir al paso 2 del registro
+            return redirect()->to("congreso/$slug/registro/paso/2");
+        }
+        // Si no está autenticado, redirigir al paso 1 (crear cuenta/iniciar sesión)
+        return redirect()->to("congreso/$slug/registro/paso/1");
     }
 
     public function programa($slug)
@@ -133,5 +155,82 @@ class CongresoController extends BaseController
         ];
 
         return view('website/congresos/finalizado', $data);
+    }
+
+    public function registroPaso($slug, $paso = 1)
+    {
+        $session = session();
+        helper('form');
+
+        // Obtener progreso actual
+        $pasoActualUsuario = $session->get("registro_paso_$slug") ?? 1;
+
+        if ($paso > $pasoActualUsuario) {
+            return redirect()->to("congreso/$slug/registro/paso/$pasoActualUsuario");
+        }
+
+        // Obtener los detalles del congreso
+        $congresoModel = new \App\Models\CongresoModel();
+        $congreso = $congresoModel->where('slug', $slug)->first();
+
+        if (!$congreso) {
+            // Si el congreso no existe, redirigir a una página de error
+            return redirect()->to('/')->with('error', 'Congreso no encontrado.');
+        }
+
+        // Etapas del proceso
+        $etapas = ['crear cuenta o iniciar sesión', 'seleccionar congreso', 'seleccionar plan de pago', 'finalizar'];
+
+        // Datos para la vista
+        $data = [
+            'slug' => $slug,
+            'congreso' => $congreso,
+            'paso' => $paso,
+            'etapas' => $etapas,
+            'pasoActualUsuario' => $pasoActualUsuario,
+            'nextStepUrl' => ($paso < count($etapas)) ? site_url("congreso/$slug/registro/paso/" . ($paso + 1)) : null,
+            'prevStepUrl' => ($paso > 1) ? site_url("congreso/$slug/registro/paso/" . ($paso - 1)) : null,
+        ];
+
+        // Manejo de datos según el paso
+        switch ($paso) {
+            case 1:
+                // Login o registro
+                break;
+            case 2:
+                // $data['congresos'] = $this->registroModel->obtenerCongresosActivos();
+                break;
+            case 3:
+                // $data['planes'] = $this->registroModel->obtenerPlanesPorCongreso($slug);
+                break;
+            case 4:
+                /*$data['resumen'] = [
+                    'usuario' => $session->get(),
+                    'congreso' => $this->registroModel->obtenerCongresoPorSlug($slug),
+                ];*/
+                break;
+        }
+
+        return view('website/congresos/registro/index', $data);
+    }
+
+    /**
+     * Finaliza el registro.
+     */
+    public function finalizarRegistro($slug)
+    {
+        $session = session();
+        // Lógica de finalización del registro
+        $session->set("registro_paso_$slug", 4);
+
+        return redirect()->to("congreso/$slug/registro/completado");
+    }
+
+    /**
+     * Vista de registro completado.
+     */
+    public function registroCompletado($slug)
+    {
+        return view('website/registro/completado', ['slug' => $slug]);
     }
 }
