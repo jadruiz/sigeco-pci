@@ -8,7 +8,7 @@
                 Asegura tu lugar. No pierdas la oportunidad de ser parte de este evento único lleno de conocimiento, innovación y networking.
             </div>
             <div class="btn-box">
-                <a href="<?= site_url('congresos/registro/' . esc($congreso['slug'])); ?>" class="theme-btn btn-style-one">
+                <a href="<?= site_url('congreso/' . esc($congreso['slug']).'/registro'); ?>" class="theme-btn btn-style-one">
                     REGISTRARSE <span class="flaticon-arrow"></span>
                 </a>
             </div>

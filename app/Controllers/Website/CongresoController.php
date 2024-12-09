@@ -51,8 +51,13 @@ class CongresoController extends BaseController
 
     public function detalle($slug)
     {
+        helper('text');
         // Obtener congreso
         $congreso = $this->getCongreso($slug);
+
+        if (!$congreso) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Congreso no encontrado');
+        }
 
         // Obtener actividades agrupadas por fecha
         $actividadesPorFecha = $this->actividadModel->obtenerActividadesAgrupadasPorFecha($congreso['id']);
@@ -64,22 +69,16 @@ class CongresoController extends BaseController
         // Obtener paquetes con beneficios
         $paqueteModel = new \App\Models\PaqueteModel();
         $paquetes = $paqueteModel->obtenerPaquetesConBeneficios($congreso['id']);
-
-        // Convertir beneficios de string a array
-        foreach ($paquetes as &$paquete) {
-            if (isset($paquete['beneficio']) && is_string($paquete['beneficio'])) {
-                $paquete['beneficios'] = explode('|', $paquete['beneficio']);
-            } else {
-                $paquete['beneficios'] = [];
-            }
-        }
-
+        // Obtener noticias relacionadas
+        $noticiaModel = new \App\Models\NoticiaModel();
+        $noticias = $noticiaModel->obtenerNoticiasPorCongreso($congreso['id']);
         // Pasar datos a la vista
         return view('website/congresos/detalle', [
             'congreso' => $congreso,
             'actividadesPorFecha' => $actividadesPorFecha,
             'patrocinadores' => $patrocinadores,
-            'paquetes' => $paquetes
+            'paquetes' => $paquetes,
+            'noticias' => $noticias
         ]);
     }
 
