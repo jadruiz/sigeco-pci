@@ -92,26 +92,27 @@ class RegistroController extends BaseController
     public function seleccionarPlan($slug, $paqueteId)
     {
         $userId = session()->get('wlp_id');
-
-        // Obtener datos del congreso
-        $congreso = $this->congresoModel->where('slug', $slug)->first();
-
-        if (!$congreso || !$userId || !$paqueteId) {
+        // Verificar datos necesarios
+        if (!$userId || !$paqueteId) {
             return redirect()->back()->with('error', 'Datos inválidos o incompletos.');
         }
-
-        // Modelos
+        // Obtener datos del congreso
+        $congreso = $this->congresoModel->where('slug', $slug)->first();
+        if (!$congreso) {
+            return redirect()->back()->with('error', 'El congreso no existe.');
+        }
+        // Instancias de modelos
         $inscripcionModel = new \App\Models\InscripcionCongresoModel();
         $progresoModel = new \App\Models\RegistroProgresoModel();
 
-        // Buscar si existe una inscripción previa
+        // Actualizar o insertar inscripción en `sgc_inscripciones_congreso`
         $inscripcion = $inscripcionModel
             ->where('participante_id', $userId)
             ->where('congreso_id', $congreso['id'])
             ->first();
 
         if ($inscripcion) {
-            // Actualizar la inscripción existente
+            // Actualizar si existe
             $inscripcionModel->update($inscripcion['id'], [
                 'paquete_id' => $paqueteId,
                 'estado' => 'en_proceso',
@@ -119,7 +120,7 @@ class RegistroController extends BaseController
             ]);
             $mensaje = 'Plan actualizado correctamente.';
         } else {
-            // Insertar una nueva inscripción
+            // Insertar nueva inscripción
             $inscripcionModel->insert([
                 'congreso_id' => $congreso['id'],
                 'participante_id' => $userId,
@@ -129,23 +130,30 @@ class RegistroController extends BaseController
             $mensaje = 'Plan seleccionado correctamente.';
         }
 
-        // Actualizar el paso_actual en sgc_registro_progreso
+        // Actualizar o insertar progreso en `sgc_registro_progreso`
         $progreso = $progresoModel
             ->where('participante_id', $userId)
             ->where('congreso_id', $congreso['id'])
             ->first();
 
         if ($progreso) {
-            $progresoModel->update($progreso['id'], ['paso_actual' => 3]);
+            // Actualizar el paso_actual y paquete_id
+            $progresoModel->update($progreso['id'], [
+                'paso_actual' => 3,
+                'paquete_id' => $paqueteId,
+                'fecha_actualizacion' => date('Y-m-d H:i:s')
+            ]);
         } else {
-            // Crear un nuevo progreso si no existe
+            // Insertar nuevo registro de progreso
             $progresoModel->insert([
                 'participante_id' => $userId,
                 'congreso_id' => $congreso['id'],
-                'paso_actual' => 3
+                'paquete_id' => $paqueteId,
+                'paso_actual' => 3,
+                'estado' => 'en_proceso'
             ]);
         }
-        // Redirigir al paso 3
+        // Redirigir al paso 3 con mensaje
         return redirect()->to("congreso/$slug/registro/paso/3")->with('success', $mensaje);
     }
 }

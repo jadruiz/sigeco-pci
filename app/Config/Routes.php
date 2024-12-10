@@ -40,6 +40,7 @@ $routes->group('congreso', function ($routes) {
 
 $routes->get('registro/set_congreso/(:segment)/(:num)', 'RegistroController::setCongreso/$1/$2');
 $routes->get('congreso/(:segment)/seleccionar-plan/(:num)', 'RegistroController::seleccionarPlan/$1/$2');
+$routes->post('congreso/(:num)/pago', 'PaymentController::realizarPago/$1');
 
 
 
@@ -87,7 +88,8 @@ $routes->get('/cerrar-sesion', 'AuthController::logout');
 $routes->get('/registro', 'AuthController::register');
 $routes->post('/registro/procesar', 'AuthController::doRegister');
 $routes->get('/dashboard', 'DashboardController::index', ['filter' => 'authUser']);
-
+$routes->get('mis-congresos', 'Website\Home::misCongresos');
+$routes->get('ayuda', 'Website\Home::ayuda');
 
 
 // Rutas de autenticación 

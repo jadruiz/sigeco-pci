@@ -178,8 +178,7 @@ class CongresoController extends BaseController
         // Verificar si el usuario está autenticado
         $userId = $session->get('wlp_id');
         if (!$userId) {
-            return redirect()->to("congreso/$slug/registro/paso/1")
-                ->with('alert', 'Debes iniciar sesión o registrarte para continuar.');
+            //return redirect()->to("congreso/$slug/registro/paso/1")->with('alert', 'Debes iniciar sesión o registrarte para continuar.');
         }
 
         // Obtener detalles del congreso
@@ -237,9 +236,30 @@ class CongresoController extends BaseController
                 break;
 
             case 3:
-                // Obtener planes de pago del congreso
-                $planesModel = new \App\Models\RegistroPaqueteModel();
-                $data['planes'] = $planesModel->where('congreso_id', $congreso['id'])->findAll();
+                // Obtener la inscripción del usuario
+                $inscripcionModel = new \App\Models\InscripcionCongresoModel();
+                $inscripcion = $inscripcionModel
+                    ->where('congreso_id', $congreso['id'])
+                    ->where('participante_id', $userId)
+                    ->first();
+
+                if (!$inscripcion) {
+                    return redirect()->to("congreso/$slug/registro/paso/2")
+                        ->with('error', 'Debes seleccionar un plan antes de continuar.');
+                }
+
+                // Obtener detalles del plan
+                $paqueteModel = new \App\Models\PaqueteModel();
+                $plan = $paqueteModel->find($inscripcion['paquete_id']);
+
+                if (!$plan) {
+                    return redirect()->to("congreso/$slug/registro/paso/2")
+                        ->with('error', 'El plan seleccionado no existe.');
+                }
+
+                // Pasar datos a la vista
+                $data['plan'] = $plan;
+                $data['inscripcion'] = $inscripcion;
                 break;
 
             case 4:

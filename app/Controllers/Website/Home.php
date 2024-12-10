@@ -18,7 +18,6 @@ class Home extends BaseController
 
     public function __construct()
     {
-        // Cargar los modelos
         $this->congresoModel = new CongresoModel();
         $this->paqueteModel = new PaqueteModel();
         $this->patrocinadorModel = new PatrocinadorModel();
@@ -27,12 +26,10 @@ class Home extends BaseController
 
     public function index()
     {
-        
-        // Obtener los últimos 10 congresos activos
         $data['congresos'] = $this->congresoModel->getUltimosCongresos(10);
-
         return view('website/home', $data);
     }
+
     /**
      * Cambiar el congreso activo
      *
@@ -41,14 +38,19 @@ class Home extends BaseController
      */
     public function cambiarCongreso($congreso_id)
     {
-        // Verificar si el congreso existe y está activo
         $congreso = $this->congresoModel->obtenerCongresoPorId($congreso_id);
         if ($congreso && $congreso['activo'] == 1) {
-            // Actualizar el congreso activo en la sesión
             session()->set('active_congreso_id', $congreso_id);
         }
-
-        // Redirigir a la página de inicio
         return redirect()->to('/');
     }
+
+    public function ayuda(){
+        echo 'Sección en mantenimiento...';
+    }
+
+    public function misCongresos(){
+        echo 'Sección en mantenimiento...';
+    }
+
 }

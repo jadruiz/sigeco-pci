@@ -10007,3 +10007,10 @@ a.ui-button:active,
 .login-form .psw:hover {
   text-decoration: underline;
 }
+/** Overwrite */
+.theme-btn, .scroll-to-top{
+  border-radius: 8px;
+}
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Roboto';
+}

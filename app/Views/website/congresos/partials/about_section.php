@@ -64,9 +64,9 @@
                 <div class="inner-column">
                     <div class="image-box">
                         <figure class="image wow fadeInRight">
-                            <a href="<?= base_url('uploads/congresos/' . esc($congreso['cover_image'])) ?>" 
+                            <a href="<?= base_url(esc($congreso['cover_image'])) ?>" 
                                class="lightbox-image" data-fancybox="images">
-                                <img src="<?= base_url('uploads/congresos/' . esc($congreso['cover_image'])) ?>" 
+                                <img src="<?= base_url(esc($congreso['cover_image'])) ?>" 
                                      alt="<?= esc($congreso['nombre']) ?>">
                             </a>
                         </figure>

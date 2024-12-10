@@ -4,17 +4,53 @@
 <link rel="stylesheet" href="<?= base_url('assets/css/registro/registro.css') ?>" />
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
-<section class="page-title">
-    <div class="auto-container">
-        <h1>
-            Registro al "<?= esc($congreso['nombre']) ?>"
-        </h1>
+<style>
+    .header-title h1 {
+        color: #fff;
+        font-size: 1.6em;
+    }
+    .header-title small{
+        color: #fff;
+        font-size: 1em;
+    }
+    .title-wrapper{
+        text-align: left;
+    }
+
+    .main-footer .footer-content {
+    padding: 40px 0px;
+}
+
+</style>
+<section class="py-3 border-bottom page-title header-title">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="title-wrapper">
+            <small>Registro</small>
+            <h1><?= esc($congreso['nombre']); ?></h1>
+        </div>
+        <div class="actions-wrapper">
+            <?php if (session()->has('wlp_username')) : ?>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="fw-bold text-white mr-4">
+                        <?= esc(session()->get('wlp_name')); ?>
+                    </span>
+                    <a href="<?= base_url('cerrar-sesion'); ?>" class="btn btn-danger btn-sm">
+                        Cerrar sesión
+                    </a>
+                </div>
+            <?php else : ?>
+                <a href="<?= base_url('iniciar-sesion'); ?>" class="btn btn-primary btn-sm">
+                    Iniciar sesión
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 </section>
 <style>
     .page-title {
-    padding: 60px 0 60px;
-}
+        padding: 60px 0 60px;
+    }
+
     .nav-tabs-container {
         background-color: #f8f9fa;
         position: relative;
@@ -60,12 +96,17 @@
             display: none !important;
         }
     }
+
+    .nav-tabs .nav-link {
+        padding: 20px 20px;
+        text-transform: uppercase;
+    }
 </style>
 
 <div class="nav-tabs-container">
     <div class="container">
         <ul class="nav nav-tabs" id="registrationTabs" role="tablist">
-            <?php 
+            <?php
             $index = 1;
             foreach ($etapas as $key => $etapa): ?>
                 <li class="nav-item" role="presentation">
@@ -75,8 +116,8 @@
                         <strong><?= $index . '. ' . ucfirst($key) ?></strong><br>
                     </a>
                 </li>
-            <?php 
-            $index++; 
+            <?php
+                $index++;
             endforeach; ?>
         </ul>
     </div>
@@ -96,14 +137,11 @@
                 break;
 
             case 3:
-                echo view('website/registro/pasos/paso_3', [
-                    'usuario' => $usuario,
-                    'congreso' => $congreso,
-                ]);
+                echo view('website/congresos/registro/pasos/paso_3');
                 break;
 
             case 4:
-                echo view('website/registro/pasos/paso_4_finalizar');
+                echo view('website/congresos/registro/pasos/paso_4');
                 break;
         endswitch;
         ?>
@@ -112,7 +150,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('footer') ?>
-<div class="container">
+<!--div id="bottom-bar" class="container">
     <div class="row">
         <div class="col-md-6 text-start">
             <?php if ($prevStepUrl): ?>
@@ -125,7 +163,7 @@
             <?php endif; ?>
         </div>
     </div>
-</div>
+</div-->
 <?= $this->endSection() ?>
 
 <?= $this->section('bottom_body') ?>

@@ -53,7 +53,7 @@ class AuthController extends BaseController
         session()->set([
             'wlp_id' => $user['id'],
             'wlp_username' => $user['username'],
-            'wlp_email' => $user['email'],
+            'wlp_name' => $user['nombre'].' '.$user['apellido_paterno'],
             'wlp_isLoggedIn' => true
         ]);
 

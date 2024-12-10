@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/template_hero') ?>
+<?= $this->extend('website/layouts/panel_participants') ?>
 <?= $this->section('content'); ?>
 
 <div class="container py-5">
