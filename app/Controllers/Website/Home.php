@@ -7,6 +7,8 @@ use App\Models\CongresoModel;
 use App\Models\PaqueteModel;
 use App\Models\PatrocinadorModel;
 use App\Models\ParticipantesModel;
+use App\Models\InscripcionCongresoModel;
+use App\Models\ArticuloModel;
 
 class Home extends BaseController
 {
@@ -15,13 +17,17 @@ class Home extends BaseController
     protected $paqueteModel;
     protected $patrocinadorModel;
     protected $participantesModel;
+    protected $inscripcionModel;
+    protected $articuloModel;
 
     public function __construct()
     {
         $this->congresoModel = new CongresoModel();
         $this->paqueteModel = new PaqueteModel();
+        $this->articuloModel = new ArticuloModel();
         $this->patrocinadorModel = new PatrocinadorModel();
         $this->participantesModel = new ParticipantesModel();
+        $this->inscripcionModel = new InscripcionCongresoModel();
     }
 
     public function index()
@@ -45,12 +51,26 @@ class Home extends BaseController
         return redirect()->to('/');
     }
 
-    public function ayuda(){
+    public function ayuda()
+    {
         echo 'Sección en mantenimiento...';
     }
 
-    public function misCongresos(){
-        echo 'Sección en mantenimiento...';
-    }
+    public function misCongresos()
+    {
+        $userId = session()->get('wlp_id');
 
+        // Obtener inscripciones del usuario
+        $inscripciones = $this->inscripcionModel->obtenerInscripcionesPorUsuario($userId);
+
+        // Obtener artículos subidos por el usuario
+        $articulos = $this->articuloModel
+            ->where('participante_id', $userId)
+            ->findAll();
+
+        return view('website/panel/mis_congresos', [
+            'inscripciones' => $inscripciones,
+            'articulos' => $articulos,
+        ]);
+    }
 }

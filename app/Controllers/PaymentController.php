@@ -112,6 +112,17 @@ class PaymentController extends ResourceController
             ]);
         }
 
+        $inscripcionModel = new \App\Models\InscripcionCongresoModel();
+        $inscripcionData = [
+            'congreso_id'     => $congreso_id,
+            'participante_id' => $userId,
+            'paquete_id'      => $plan_id,
+            'estado'          => 'pendiente',
+            'notas'           => 'Inscripción automática tras registro de pago'
+        ];
+
+        $inscripcionModel->guardarInscripcion($inscripcionData);
+
         // Respuesta de éxito
         return $this->respond([
             'status' => 'success',

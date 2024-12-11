@@ -139,6 +139,7 @@
         .then(data => {
             if (data.status === 'success') {
                 mostrarRespuesta(data.message, 'success');
+                window.location.href ='<?= base_url('congreso/' . $congreso['slug'] . '/registro/paso/4') ?>';
             } else {
                 mostrarRespuesta(data.message, 'danger');
             }

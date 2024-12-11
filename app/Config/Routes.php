@@ -42,6 +42,9 @@ $routes->get('registro/set_congreso/(:segment)/(:num)', 'RegistroController::set
 $routes->get('congreso/(:segment)/seleccionar-plan/(:num)', 'RegistroController::seleccionarPlan/$1/$2');
 $routes->post('congreso/(:num)/pago', 'PaymentController::realizarPago/$1');
 
+$routes->group('api/articulos', function ($routes) {
+    $routes->post('subir/(:num)', 'ArticuloController::subirArticulo/$1');
+});
 
 
 /*
@@ -88,13 +91,19 @@ $routes->get('/cerrar-sesion', 'AuthController::logout');
 $routes->get('/registro', 'AuthController::register');
 $routes->post('/registro/procesar', 'AuthController::doRegister');
 $routes->get('/dashboard', 'DashboardController::index', ['filter' => 'authUser']);
-$routes->get('mis-congresos', 'Website\Home::misCongresos');
-$routes->get('ayuda', 'Website\Home::ayuda');
+$routes->get('mis-congresos', 'Website\Home::misCongresos',['filter' => 'authUser']);
+$routes->get('ayuda', 'Website\Home::ayuda',['filter' => 'authUser']);
+
+$routes->group('api/articulos', ['filter' => 'authUser'], function ($routes) {
+    $routes->post('subir/(:num)','ArticuloController::subirArticulo/$1');
+});
+$routes->get('articulos/subir/(:num)', 'ArticuloController::subir/$1');
 
 
 // Rutas de autenticación 
 $routes->match(['get', 'post'], 'admin/login', 'Acl\AuthController::login', ['as' => 'admin.login']);
 $routes->get('admin/logout', 'Acl\AuthController::logout', ['as' => 'admin.logout']);
+$routes->get('admin', 'Acl\AuthController::login', ['as' => 'admin.index']);
 
 // Rutas adicionales públicas
 $routes->get('auth/secret/(:any)', 'AuthController::secret/$1', [
@@ -120,6 +129,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => ['a
         $routes->get('editar/(:num)', 'CongresosController::editar/$1', ['as' => 'admin.congresos.editar']);
         $routes->post('actualizar/(:num)', 'CongresosController::actualizar/$1', ['as' => 'admin.congresos.actualizar']);
         $routes->post('eliminar/(:num)', 'CongresosController::eliminar/$1', ['as' => 'admin.congresos.eliminar']);
+        $routes->post('lista_json', 'CongresosController::lista_json', ['as' => 'admin.congresos.lista_json']);
     });
 
     // Artículos
@@ -130,6 +140,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => ['a
         $routes->get('editar/(:num)', 'ArticulosController::editar/$1', ['as' => 'admin.articulos.editar']);
         $routes->post('actualizar/(:num)', 'ArticulosController::actualizar/$1', ['as' => 'admin.articulos.actualizar']);
         $routes->post('eliminar/(:num)', 'ArticulosController::eliminar/$1', ['as' => 'admin.articulos.eliminar']);
+        $routes->post('lista_json', 'ArticulosController::lista_json', ['as' => 'admin.articulos.lista_json']);
+        $routes->post('revision/guardar', 'RevisionController::guardar');
+        $routes->get('revision/(:num)', 'RevisionController::formulario/$1');
     });
 
     // Participación

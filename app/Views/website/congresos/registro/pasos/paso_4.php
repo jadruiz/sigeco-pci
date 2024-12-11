@@ -9,7 +9,7 @@
         para recibir notificaciones importantes relacionadas con el evento.
     </p>
     <div class="mt-4">
-        <a href="<?= base_url('/dashboard'); ?>" class="btn btn-primary btn-lg">
+        <a href="<?= base_url('/mis-congresos'); ?>" class="btn btn-primary btn-lg">
             Continuar
         </a>
     </div>

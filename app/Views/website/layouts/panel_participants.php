@@ -119,10 +119,10 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?= base_url('admin/dashboard') ?>">
+                                    <a class="dropdown-item" href="<?= base_url('dashboard') ?>">
                                         <div class="d-flex align-items-center">
                                             <div class=""><ion-icon name="speedometer-outline"></ion-icon></div>
-                                            <div class="ms-3"><span>Dashboard</span></div>
+                                            <div class="ms-3"><span>Panel</span></div>
                                         </div>
                                     </a>
                                 </li>
@@ -130,7 +130,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?= base_url('admin/logout') ?>">
+                                    <a class="dropdown-item" href="<?= base_url('cerrar-sesion') ?>">
                                         <div class="d-flex align-items-center">
                                             <div class=""><ion-icon name="log-out-outline"></ion-icon></div>
                                             <div class="ms-3"><span>Salir</span></div>

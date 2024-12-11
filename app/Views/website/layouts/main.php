@@ -58,7 +58,7 @@
 
                         <!-- Outer btn -->
                         <div class="outer-btn">
-                            <a href="registro" class="theme-btn btn-style-one">Registro <span class="flaticon-arrow"></span></a>
+                            <a href="<?= base_url('iniciar-sesion')?>" class="theme-btn btn-style-one">Iniciar sesión <span class="flaticon-arrow"></span></a>
                         </div>
                     </div>
                 </div>
@@ -135,19 +135,19 @@
                 <form method="post" action="index.html">
                     <div class="form-group">
                         <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required>
-                            <input type="submit" value="Search Now!" class="theme-btn">
+                            <input type="search" class="form-control" name="search-input" value="" placeholder="Buscar" required>
+                            <input type="submit" value="Buscar" class="theme-btn">
                         </fieldset>
                     </div>
                 </form>
                 <br>
-                <h3>Recent Search Keywords</h3>
+                <h3>Palabras calve buscadas recientemente</h3>
                 <ul class="recent-searches">
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Web Development</a></li>
-                    <li><a href="#">SEO</a></li>
-                    <li><a href="#">Logistics</a></li>
-                    <li><a href="#">Freedom</a></li>
+                    <li><a href="#">Tecnología</a></li>
+                    <li><a href="#">Ambiente</a></li>
+                    <li><a href="#">Inteligencia Artificial</a></li>
+                    <li><a href="#">Educación</a></li>
+                    <li><a href="#">Informática</a></li>
                 </ul>
             </div>
         </div>
